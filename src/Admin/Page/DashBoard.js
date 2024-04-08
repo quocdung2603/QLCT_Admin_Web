@@ -51,7 +51,7 @@ const Dashboard = () => {
                             <div className='ms-auto'>
                                 {MCE === 1 ? <IoIosArrowDown /> : <IoIosArrowUp />}
                             </div>
-                        </button >
+                        </button>
                     </div>
                     {MCE === 1 ? (
                         <div className='flex-col ms-[20px]'>

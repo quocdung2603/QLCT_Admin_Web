@@ -2,13 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Login from './Admin/Account/Login';
-import Dashboard from './Admin/Page/DashBoard';
 
+import {  AuthContextProvider } from './Admin/AuthContext';
+
+import App from './Admin/App';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Dashboard />
+    <AuthContextProvider>
+      <App/>
+    </AuthContextProvider>
   </React.StrictMode>
 );
 

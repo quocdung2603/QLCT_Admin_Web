@@ -1,6 +1,22 @@
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import React from 'react';
-
+import { auth } from '../../firebase';
+import {useNavigate} from 'react-router-dom';
 export default function Login() {
+    const navigate =useNavigate();
+    const handleLogin= async (e)=>{
+        e.preventDefault();
+        const email = e.target[0].value;
+        const password = e.target[1].value;
+        
+        console.log(email);
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            navigate('/');
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -16,7 +32,7 @@ export default function Login() {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" method="POST">
+                    <form className="space-y-6" action="#" method="POST" onSubmit={handleLogin}>
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                 Email address
@@ -39,7 +55,7 @@ export default function Login() {
                                     Password
                                 </label>
                                 <div className="text-sm">
-                                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                    <a href="/" className="font-semibold text-indigo-600 hover:text-indigo-500">
                                         Forgot password?
                                     </a>
                                 </div>
@@ -68,7 +84,7 @@ export default function Login() {
 
                     <p className="mt-10 text-center text-sm text-gray-500">
                         Not a member?{' '}
-                        <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                        <a href="/" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                             Start a 14 day free trial
                         </a>
                     </p>
