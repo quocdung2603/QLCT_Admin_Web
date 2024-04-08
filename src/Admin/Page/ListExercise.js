@@ -47,6 +47,28 @@ const ListExercise = () => {
         const imgWindow = window.open(src);
         imgWindow?.document.write(image.outerHTML);
     };
+    
+    //video
+    const [fileListVideo, setFileListVideo] = useState([
+
+    ]);
+    const onChangeVideo = ({ fileList: newFileList }) => {
+        setFileListVideo(newFileList);
+    };
+    const onPreviewVideo = async (file) => {
+        let src = file.url;
+        if (!src) {
+            src = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file.originFileObj);
+                reader.onload = () => resolve(reader.result);
+            });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow?.document.write(image.outerHTML);
+    };
     return (
         <>
             <div className='m-[10px] border-[1px] p-[5px]'>
@@ -130,6 +152,20 @@ const ListExercise = () => {
                             </Upload>
                         </ImgCrop>
                     </div>
+                    <div className='flex-col my-[10px]'>
+                        <p className='text-[17px] font-bold me-auto'>Video</p>
+                        <ImgCrop rotationSlider>
+                            <Upload
+                                action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                                listType="picture-card"
+                                fileList={fileListVideo}
+                                onChange={onChangeVideo}
+                                onPreview={onPreviewVideo}
+                            >
+                                {fileList.length < 5 && '+ Upload'}
+                            </Upload>
+                        </ImgCrop>
+                    </div>
                 </div>
             </Modal>
             {/* xem */}
@@ -157,6 +193,21 @@ const ListExercise = () => {
                                 fileList={fileList}
                                 onChange={onChange}
                                 onPreview={onPreview}
+                                disabled
+                            >
+                                {fileList.length < 5 && '+ Upload'}
+                            </Upload>
+                        </ImgCrop>
+                    </div>
+                    <div className='flex-col my-[10px]'>
+                        <p className='text-[17px] font-bold me-auto'>Video</p>
+                        <ImgCrop rotationSlider>
+                            <Upload
+                                action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                                listType="picture-card"
+                                fileList={fileListVideo}
+                                onChange={onChangeVideo}
+                                onPreview={onPreviewVideo}
                                 disabled
                             >
                                 {fileList.length < 5 && '+ Upload'}
@@ -206,6 +257,20 @@ const ListExercise = () => {
                                 fileList={fileList}
                                 onChange={onChange}
                                 onPreview={onPreview}
+                            >
+                                {fileList.length < 5 && '+ Upload'}
+                            </Upload>
+                        </ImgCrop>
+                    </div>
+                    <div className='flex-col my-[10px]'>
+                        <p className='text-[17px] font-bold me-auto'>Video</p>
+                        <ImgCrop rotationSlider>
+                            <Upload
+                                action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                                listType="picture-card"
+                                fileList={fileListVideo}
+                                onChange={onChangeVideo}
+                                onPreview={onPreviewVideo}
                             >
                                 {fileList.length < 5 && '+ Upload'}
                             </Upload>
