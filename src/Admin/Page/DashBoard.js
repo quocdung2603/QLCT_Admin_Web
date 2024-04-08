@@ -29,7 +29,7 @@ const Dashboard = () => {
                     </div>
                     <div className='flex-col ms-[10px]'>
                         <p className='text-[18px] font-bold'>Lê Tuấn Kiệt</p>
-                        <p className='text-[16px]'>QTV</p>
+                        <p className='text-[16px]'>ADMIN</p>
                     </div>
                 </div>
             </div>
