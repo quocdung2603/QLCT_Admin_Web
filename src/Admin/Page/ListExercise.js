@@ -70,6 +70,8 @@ const ListExercise = () => {
         }
     }, [])
 
+    const [uploadProgress, setUploadProgress] = useState(0);
+
     // handle
     const handleAdd = async (e) => {
         e.preventDefault();
@@ -86,21 +88,34 @@ const ListExercise = () => {
                         linkImg = downloadURL;
                     } catch (err) {
                         console.log(err);
+                        alert("Chưa thành công vui lòng thử lại!")
                     }
                 });
             });     
-         
+            
             const storageRef1 = ref(storage, `/VideoExercise/${idExercise + date}`);
-            await uploadBytesResumable(storageRef1, fileListVideo).then(() => {
-                console.log("l", linkImg)
-                getDownloadURL(storageRef1).then(async (downloadURL) => {
-                    try {
+            const uploadTask = uploadBytesResumable(storageRef1, fileListVideo);
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    // Tính phần trăm tải lên
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setUploadProgress(progress);
+                },
+                (error) => {
+                    console.log(error);
+                },
+                () => {
+                    // Tải lên hoàn thành
+                    getDownloadURL(storageRef1).then(async (downloadURL) => {
+                        try {
+                            const cl= parseInt(carlo);
                         const tmp = {
                             id: idExercise,
                             name: nameBt,
                             image: linkImg,
                             introduction: descript,
-                            carlo: carlo,
+                            carlo: cl,
                             video: downloadURL,
                             timeCreate: time
                         }
@@ -116,12 +131,16 @@ const ListExercise = () => {
                         setMadd(0);
                         alert("Thêm thành công");
                         getEx();
-                    } catch (err) {
-                        console.log(err);
-                    }
-                });
-            });
+                        window.location.reload();
+                        } catch (err) {
+                            alert("Chưa thành công vui lòng thử lại!")
+                            console.log(err);
+                        }
+                    });
+                }
+            );
         } catch (error) {
+            alert("Chưa thành công vui lòng thử lại!")
             console.log(error);
 
         }
@@ -288,6 +307,7 @@ const ListExercise = () => {
             {/* thêm */}
             <Modal open={Madd} onCancel={() => { setMadd(0) }} onOk={handleAdd} okButtonProps={{ className: 'bg-primary' }}>
                 <div className='flex-col justify-center items-center'>
+                        {uploadProgress > 0 && <div>Đang tải {uploadProgress}</div>}
                     <p className='text-center text-[20px] font-bold my-[10px]'>Thêm bài tập mới</p>
                     <div className='flex items-center my-[10px]'>
                         <p className='text-[17px] font-bold me-auto'>Tên bài tập</p>
